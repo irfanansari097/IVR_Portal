@@ -1,0 +1,217 @@
+<div class="container my-5 ">
+    <div class="card card-register">
+        <div class="card-body">
+
+            <form #adduserform="ngForm">
+                <div class="form-group form-inline">
+                    Full text search: <input class="form-control ml-2" type="text" name="searchTerm"
+                        [(ngModel)]="service.searchTerm" />
+                    <span class="ml-3" *ngIf="service.loading$ | async">Loading...</span>
+                </div>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col" sortable="serviceid" (sort)="onSort($event)">Service</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let serviceid of users$ | async">
+                            <td>
+                                <ngb-highlight [result]="serviceid"></ngb-highlight>
+                            </td>
+                            <td class="td-actions text-left">
+                                <button type="button" rel="tooltip" class="btn btn-info btn-sm btn-icon"
+                                    (click)="onAdd(serviceid)">
+                                    <i class="tim-icons icon-simple-add"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-between p-2">
+                    <ngb-pagination [collectionSize]="(total$ | async)!" [(page)]="service.page"
+                        [pageSize]="service.pageSize">
+                    </ngb-pagination>
+
+                    <select class="custom-select" style="width: auto" name="pageSize" [(ngModel)]="service.pageSize">
+                        <option [ngValue]="5">5 items per page</option>
+                        <option [ngValue]="10">10 items per page</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- add dialogue -->
+
+    <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal class="modal fade modal-black" #myModalAdd="bs-modal"
+        id="myModalAdd" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <button aria-hidden="true" class="close" data-dismiss="modal" (click)="myModalAdd.hide()"
+                        type="button">
+                        <i class="tim-icons icon-simple-remove text-white"> </i>
+                    </button>
+                    <div class="text-muted text-center ml-auto mr-auto">
+                        <h4 class="mb-0">Add IVR Content</h4>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form role="form" [formGroup]="adduploadIvrForm">
+                        <div class="row">
+                            <div class="form-group col-12 text-left">
+                                <label for="inputState">Category</label>
+                                <select (change)="onChange($event)" id="inputState" class="form-control  myformcontrol"
+                                    id="categoryid" name="categoryid" formControlName="categoryid">
+                                    <option *ngFor="let category of categories" [value]="category.id">{{category.name}}
+                                    </option>>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div *ngIf="showbasic" class="form-row">
+                            <div class="form-group col-12 text-left">
+                                <label for="inputState">Lession Number</label>
+                                <div class="input-group input-group-alternative"
+                                    [ngClass]="{ 'input-group-focus': focus33 === true }">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="tim-icons icon-notes"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control myformcontrol" placeholder="Lessonid"
+                                        type="number" step="1" min="0" (focus)="focus33 = true" (blur)="focus33 = false"
+                                        id="lessonid" name="lessonid" formControlName="lessonid" />
+                                </div>
+
+                                <div class="alert alert-warning"
+                                    *ngIf="lessonid && lessonid.invalid && (lessonid.dirty || lessonid.touched)">
+                                    Lession Number is required</div>
+                            </div>
+
+                        </div>
+
+                        <div *ngIf="!showbasic" class="form-row">
+                            <div class="form-group col-md-12 text-left">
+                                <label for="inputState">Upload Date</label>
+                                <div class="input-group input-group-alternative"
+                                    [ngClass]="{ 'input-group-focus': focus17 === true }">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="tim-icons icon-calendar-60"> </i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" placeholder="Activation Date" type="date"
+                                        (focus)="focus17 = true" (blur)="focus17 = false" id="activedate"
+                                        name="activedate" formControlName="activedate" />
+                                </div>
+                                <div class="alert alert-danger"
+                                    *ngIf="activedate && activedate.invalid && (activedate.dirty || activedate.touched)">
+                                    Date required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12 text-left">
+                            <label for="inputState">Audio file</label>
+                            <div class="input-group input-group-alternative"
+                                [ngClass]="{ 'input-group-focus': focus24 === true }">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="tim-icons icon-cloud-upload-94"> </i>
+                                    </span>
+                                </div>
+                                <div class="custom-file">
+
+                                    <input type="file" id="inputGroupFile01" (focus)="focus24 = true"
+                                        (blur)="focus24 = false" accept=".mp3" placeholder="audio"
+                                        aria-describedby="inputGroupFileAddon01" id="audio" name="audio" required
+                                        (change)="handleFileInput($event)" formControlName="audio" />
+                                    <label class="custom-file-label" for="inputGroupFile01">{{audiofilelabel}}</label>
+                                </div>
+                            </div>
+                            <div class="alert alert-danger"
+                                *ngIf="audio && audio.invalid && (audio.dirty || audio.touched)">
+                                Audio file is required</div>
+                        </div>
+                        <div class="form-group text-center">
+                            <button class="btn btn-primary my-4" type="button" (click)="onSubmit()">Submit</button>
+                            <button aria-hidden="true" class="btn btn-primary my-4" data-dismiss="modal"
+                                (click)="myModalAdd.hide()" type="button"> Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Dialog -->
+    <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal
+        class="modal fade modal-mini modal-primary modal-mini" #myModalinfo="bs-modal" id="myModalinfo" role="dialog"
+        tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <button aria-hidden="true" class="close" data-dismiss="modal" (click)="myModalinfo.hide()"
+                        type="button">
+                        <i class="tim-icons icon-simple-remove text-white"> </i>
+                    </button>
+                    <div class="modal-profile">
+                        <i class="tim-icons icon-single-02"> </i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p>{{myModalinform}}</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-link btn-neutral" type="button">
+
+                    </button>
+                    <button class="btn btn-link btn-neutral" data-dismiss="modal" type="button"
+                        (click)="myModalinfo.hide()">
+                        Close
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Dialoge -->
+
+    <div aria-hidden="true" aria-labelledby="myModalLabel" bsModal
+        class="modal fade modal-mini modal-warning modal-mini" #myModalconfirm="bs-modal" id="myModalconfirm"
+        role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <button aria-hidden="true" class="close" data-dismiss="modal" (click)="myModalconfirm.hide()"
+                        type="button">
+                        <i class="tim-icons icon-simple-remove text-white"> </i>
+                    </button>
+                    <div class="modal-profile">
+                        <i class="tim-icons icon-single-02"> </i>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-link btn-neutral" type="button" (click)="onDelete()">
+                        Yes
+                    </button>
+                    <button class="btn btn-link btn-neutral" data-dismiss="modal" type="button"
+                        (click)="myModalconfirm.hide()">
+                        No
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

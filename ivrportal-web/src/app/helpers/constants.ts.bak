@@ -1,0 +1,27 @@
+export const Messages = {
+    SESSIONEND: "SESSION_END",
+    TOKENPRESENT: "TOKEN_PRESENT"
+}
+
+export const API = {
+    REAUTHENTICATE: "users/reauthenticate",
+    AUTHENTICATE: "users/authenticate",
+    ROLES: "roles/all",
+    USERS: "users/view",
+    UPDATEUSER: "users/update",
+    DELETEUSER: "users/delete",
+    DELETECONTENTS: "contents/delete",
+    UPDATECONTENTS: "contents/update",
+    BULKUPLOADFORM: "upload/bulkupload",
+
+    // for learn english
+    ADDLEARNENGLISH: "learnenglish/add",
+
+    DELETELEARNENGLISH: "learnenglish/delete",
+
+    UPDATELEARNENGLISH: "learnenglish/update",
+
+    IVRSERVICESVIEW: "learnenglish/view",
+
+
+}
