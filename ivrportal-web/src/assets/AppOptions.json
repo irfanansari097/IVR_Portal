@@ -1,0 +1,13 @@
+{
+    "recaptchaV3SiteKey" : "",
+    "service" :
+    {
+        "baseurl" : "/"
+    },
+    "messages" :
+    {
+        "BadRequest" : "Bad Request",
+        "Failure" : "Some error occurred. Please try after sometime."
+
+    }
+}
