@@ -24,6 +24,7 @@ export class ManageivrcontentsComponent implements OnInit {
   audiofilelabel = "Choose Audio file";
   focus5;
   focus6;
+  focus33;
   focus24;
   focus18;
   selectid: string = "";
@@ -107,6 +108,7 @@ export class ManageivrcontentsComponent implements OnInit {
     });
 
     this.audiofilelabel = inService.path;
+    this.onChange();
     this.myModaledit.show();
   }
 

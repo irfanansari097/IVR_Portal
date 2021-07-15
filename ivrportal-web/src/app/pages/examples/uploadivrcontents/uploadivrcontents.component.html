@@ -83,14 +83,17 @@
                                             <i class="tim-icons icon-notes"></i>
                                         </span>
                                     </div>
-                                    <input class="form-control myformcontrol" placeholder="Lessonid"
-                                        type="number" step="1" min="0" (focus)="focus33 = true" (blur)="focus33 = false"
-                                        id="lessonid" name="lessonid" formControlName="lessonid" />
+                                    <input class="form-control myformcontrol" placeholder="Lessonid" type="number"
+                                        step="1" min="0" (focus)="focus33 = true" (blur)="focus33 = false" id="lessonid"
+                                        name="lessonid" formControlName="lessonid" pattern="^[1-9]\d*$"/>
                                 </div>
 
                                 <div class="alert alert-warning"
-                                    *ngIf="lessonid && lessonid.invalid && (lessonid.dirty || lessonid.touched)">
+                                    *ngIf="lessonid && lessonid.invalid && !lessonid.errors.pattern && (lessonid.dirty || lessonid.touched)">
                                     Lession Number is required</div>
+                                <div class="alert alert-warning"
+                                    *ngIf="lessonid && lessonid.invalid && lessonid.errors.pattern">
+                                    Lession Number should be greater than 0</div>
                             </div>
 
                         </div>
@@ -107,7 +110,7 @@
                                     </div>
                                     <input class="form-control" placeholder="Activation Date" type="text"
                                         (focus)="focus17 = true" (blur)="focus17 = false" id="activedate"
-                                        name="activedate" formControlName="activedate"/>
+                                        name="activedate" formControlName="activedate" />
                                 </div>
                                 <div class="alert alert-danger"
                                     *ngIf="activedate && activedate.invalid && (activedate.dirty || activedate.touched)">
@@ -116,28 +119,29 @@
                         </div>
 
                         <div class="form-row">
-                        <div class="form-group col-md-12 text-left">
-                            <label for="inputState">Audio file</label>
-                            <div class="input-group input-group-alternative"
-                                [ngClass]="{ 'input-group-focus': focus24 === true }">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">
-                                        <i class="tim-icons icon-cloud-upload-94"> </i>
-                                    </span>
-                                </div>
-                                <div class="custom-file">
+                            <div class="form-group col-md-12 text-left">
+                                <label for="inputState">Audio file</label>
+                                <div class="input-group input-group-alternative"
+                                    [ngClass]="{ 'input-group-focus': focus24 === true }">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="tim-icons icon-cloud-upload-94"> </i>
+                                        </span>
+                                    </div>
+                                    <div class="custom-file">
 
-                                    <input type="file" id="inputGroupFile01" (focus)="focus24 = true"
-                                        (blur)="focus24 = false" accept=".mp3" placeholder="audio"
-                                        aria-describedby="inputGroupFileAddon01" id="audio" name="audio" required
-                                        (change)="handleFileInput($event)" formControlName="audio" />
-                                    <label class="custom-file-label" for="inputGroupFile01">{{audiofilelabel}}</label>
+                                        <input type="file" id="inputGroupFile01" (focus)="focus24 = true"
+                                            (blur)="focus24 = false" accept=".mp3" placeholder="audio"
+                                            aria-describedby="inputGroupFileAddon01" id="audio" name="audio" required
+                                            (change)="handleFileInput($event)" formControlName="audio" />
+                                        <label class="custom-file-label"
+                                            for="inputGroupFile01">{{audiofilelabel}}</label>
+                                    </div>
                                 </div>
+                                <div class="alert alert-danger"
+                                    *ngIf="audio && audio.invalid && (audio.dirty || audio.touched)">
+                                    Audio file is required</div>
                             </div>
-                            <div class="alert alert-danger"
-                                *ngIf="audio && audio.invalid && (audio.dirty || audio.touched)">
-                                Audio file is required</div>
-                        </div>
                         </div>
                         <div class="form-group text-center">
                             <button class="btn btn-primary my-4" type="button" (click)="onSubmit()">Submit</button>

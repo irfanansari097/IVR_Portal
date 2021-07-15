@@ -69,7 +69,7 @@ public class IVRContentController {
     public @ResponseBody
     Response addIVRContent(@ModelAttribute FormDataWithUploadFile inFormData) {
 
-        logger.info("Entering addIVRContent");
+        logger.info("ENTERING addIVRContent");
         Response response = new Response();
         try {
             IVRContent n = new ObjectMapper().readValue(inFormData.getIvrcontent(), IVRContent.class);
@@ -77,9 +77,9 @@ public class IVRContentController {
 
             // upload file
             MultipartFile uploadfile = inFormData.getUploadfile();
+//            logger.info(uploadfile.getOriginalFilename());
             n.setPath(n.getCategoryid() + File.separator + uploadfile.getOriginalFilename());
-            storageService.store(inFormData.getUploadfile(), n.getPath());
-            
+            storageService.store(inFormData.getUploadfile(), n.getPath());            
 
             ivrContentRepository.save(n);
 
